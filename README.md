@@ -6,9 +6,9 @@ LayaAirIDE 版本：1.8.12
 <!--模块解析-->
 
 src
-    game
-        common
-            utils.ts <!-- 通用工具类接口 -->
-        reddot
-            
-    ui
+----game
+--------common  <!-- 通用工具类接口 -->
+------------utils.ts 
+
+--------reddot
+----ui
