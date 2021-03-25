@@ -3,7 +3,8 @@
 /**
  * 
  */
-module utils {
+module h5game.Utils {
+
 
     let g_nGUID: number = 10000;
 
@@ -14,7 +15,13 @@ module utils {
         return (g_nGUID++).toString();
     }
 
-    export function stringFormat(str: string, ...params: any[]) {
+    /**
+     * 字符串格式化
+     * @param str 
+     * @param params 
+     * @returns 
+     */
+    export function stringFormat(str: string, ...params: any[]): string {
         if (params.length == 0)
             return null;
         for (var i = 0; i < params.length; i++) {
@@ -22,92 +29,6 @@ module utils {
             str = str.replace(re, params[i]);
         }
         return str;
-    }
-
-    /**
-     * 角度转弧度。
-     * @param   angle 角度值。
-     * @return  返回弧度值。
-     */
-    export function toRadian(angle) {
-        return angle * Math.PI / 180;
-    }
-
-    /**
-     * 弧度转换为角度。
-     * @param   radian 弧度值。
-     * @return  返回角度值。
-     */
-    export function toAngle(radian) {
-        return radian * 180 / Math.PI;
-    }
-
-    /**
-     * 获取指定的两个点组成的线段的弧度值。
-    * @param   x0 点一的 X 轴坐标值。
-    * @param   y0 点一的 Y 轴坐标值。
-    * @param   x1 点二的 X 轴坐标值。
-    * @param   y1 点二的 Y 轴坐标值。
-    * @return 弧度值。
-    */
-    export function getRotation(x0, y0, x1, y1) {
-        return Math.atan2(y1 - y0, x1 - x0) / Math.PI * 180;
-    }
-
-    /**
-     * 两点间距离
-     * @param {*} x0 
-     * @param {*} y0 
-     * @param {*} x1 
-     * @param {*} y1 
-     */
-    function calcDist(x0, y0, x1, y1) {
-        return Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
-    }
-
-    /**
-     * 数字转换大写
-     * @param {*} value 
-     */
-    export function number2Chinese(value) {
-        let valueStr = value + '';
-        let len = valueStr.length - 1;
-        let idxs = ['', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '万', '十', '百', '千', '亿'];
-        let num = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
-        return valueStr.replace(/([1-9]|0+)/g, function ($, $1, idx, full) {
-            let pos = 0;
-            if ($1[0] != '0') {
-                pos = len - idx;
-                if (idx == 0 && $1[0] == 1 && idxs[len - idx] == '十') {
-                    return idxs[len - idx];
-                }
-                return num[$1[0]] + idxs[len - idx];
-            } else {
-                let left = len - idx;
-                let right = len - idx + $1.length;
-                if (Math.floor(right / 4) - Math.floor(left / 4) > 0) {
-                    pos = left - left % 4;
-                }
-                if (pos) {
-                    return idxs[pos] + num[$1[0]];
-                } else if (idx + $1.length >= len) {
-                    return '';
-                } else {
-                    return num[$1[0]]
-                }
-            }
-        });
-    }
-
-    /**
-     * 获取本周星期几日期
-     * @param {*} num 
-     */
-    export function getWeekByNum(num) {
-        var date = new Date();
-        date.setHours(0, 0, 0, 0)
-        date.setDate(date.getDate() + (num - date.getDay()));
-        return date;
     }
 
     /**
@@ -138,8 +59,94 @@ module utils {
         return format;
     }
 
-    let m_vRollNumberTimerList: Array<number> = [];
+    /**
+     * 角度转弧度。
+     * @param   angle 角度值。
+     * @return  返回弧度值。
+     */
+    export function toRadian(angle: number): number {
+        return angle * Math.PI / 180;
+    }
 
+    /**
+     * 弧度转换为角度。
+     * @param   radian 弧度值。
+     * @return  返回角度值。
+     */
+    export function toAngle(radian: number): number {
+        return radian * 180 / Math.PI;
+    }
+
+    /**
+     * 获取指定的两个点组成的线段的弧度值。
+    * @param   x0 点一的 X 轴坐标值。
+    * @param   y0 点一的 Y 轴坐标值。
+    * @param   x1 点二的 X 轴坐标值。
+    * @param   y1 点二的 Y 轴坐标值。
+    * @return 弧度值。
+    */
+    export function getRotation(x0: number, y0: number, x1: number, y1: number): number {
+        return Math.atan2(y1 - y0, x1 - x0) / Math.PI * 180;
+    }
+
+    /**
+     * 两点间距离
+     * @param {*} x0 
+     * @param {*} y0 
+     * @param {*} x1 
+     * @param {*} y1 
+     */
+    export function calcDist(x0: number, y0: number, x1: number, y1: number): number {
+        return Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
+    }
+
+    /**
+     * 数字转换大写
+     * @param {*} value 
+     */
+    export function number2Chinese(value: number): string {
+        let valueStr: string = value + '';
+        let len: number = valueStr.length - 1;
+        let idxs: Array<string> = ['', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '万', '十', '百', '千', '亿'];
+        let num: Array<string> = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+
+        return valueStr.replace(/([1-9]|0+)/g, function ($, $1, idx, full) {
+            let pos = 0;
+            if ($1[0] != '0') {
+                pos = len - idx;
+                if (idx == 0 && $1[0] == 1 && idxs[len - idx] == '十') {
+                    return idxs[len - idx];
+                }
+                return num[$1[0]] + idxs[len - idx];
+            } else {
+                let left = len - idx;
+                let right = len - idx + $1.length;
+                if (Math.floor(right / 4) - Math.floor(left / 4) > 0) {
+                    pos = left - left % 4;
+                }
+                if (pos) {
+                    return idxs[pos] + num[$1[0]];
+                } else if (idx + $1.length >= len) {
+                    return '';
+                } else {
+                    return num[$1[0]]
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取本周星期几日期
+     * @param {*} num 
+     */
+    export function getWeekByNum(num: number): Date {
+        var date = new Date();
+        date.setHours(0, 0, 0, 0)
+        date.setDate(date.getDate() + (num - date.getDay()));
+        return date;
+    }
+
+    let m_vRollNumberTimerList: Array<number> = [];
     /**
      * 开始滚动数字效果
      * 

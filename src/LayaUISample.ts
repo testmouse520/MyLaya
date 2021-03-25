@@ -25,7 +25,7 @@ class TestUI extends ui.test.TestPageUI {
 	}
 
 	private onBtn2Click(): void {
-
+		h5game.Utils.formatDate(new Date(), "yyssyy")
 		//通过赋值可以简单快速修改组件属性
 		//赋值有两种方式：
 		//简单赋值，比如：progress:0.2，就是更改progress组件的value为2
@@ -66,9 +66,10 @@ Laya.KGMiniAdapter.init();
 Laya.BMiniAdapter.init();
 Laya.QQMiniAdapter.init();
 Laya.MiniAdpter.init();
-
+import DebugTool = laya.debug.DebugTool;
 //程序入口
 Laya.init(600, 400, WebGL);
+Laya.DebugTool.init(true)
 //激活资源版本控制
 Laya.ResourceVersion.enable("version.json", Handler.create(null, beginLoad), Laya.ResourceVersion.FILENAME_VERSION);
 

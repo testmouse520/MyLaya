@@ -5,7 +5,7 @@
  */
 module h5game {
 
-    export class UIBase extends Laya.View {
+    export class BaseView extends Laya.View {
 
         constructor() {
             super()
