@@ -1,6 +1,22 @@
 
 import View=laya.ui.View;
 import Dialog=laya.ui.Dialog;
+module ui.common {
+    export class RedDotUI extends View {
+		public ui_labelNumber:Laya.Label;
+
+        public static  uiView:any ={"type":"View","props":{"width":600,"height":400},"child":[{"type":"Label","props":{"var":"ui_labelNumber","text":"label"}}]};
+        constructor(){ super()}
+        createChildren():void {
+        
+            super.createChildren();
+            this.createView(ui.common.RedDotUI.uiView);
+
+        }
+
+    }
+}
+
 module ui.test {
     export class TestPageUI extends View {
 		public btn:Laya.Button;
