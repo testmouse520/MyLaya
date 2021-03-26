@@ -29,11 +29,11 @@ module h5game {
         registerRedDot(key: number, showValue: boolean): void {
             this.setShowValue(showValue);
             this._nKey = key;
-            // EventModule.instance.on(RedDotEvent.CHANGED, this, this.onGameRedDot);
+            EventModule.instance.addEventListener(RedDotEvent.CHANGED, this, Handler.createPermanent(this, this.onGameRedDot));
         }
 
         unregisterRedDot(): void {
-            // EventModule.instance.off(RedDotEvent.CHANGED, this, this.onGameRedDot);
+            EventModule.instance.removeEventListener(RedDotEvent.CHANGED, this);
         }
 
         private onGameRedDot(obj: IRedDotInfo) {

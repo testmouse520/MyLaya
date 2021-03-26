@@ -7,8 +7,16 @@ var h5game;
      *
      */
     var BaseEvent = /** @class */ (function () {
-        function BaseEvent() {
+        function BaseEvent(data) {
+            this._data = data;
         }
+        Object.defineProperty(BaseEvent.prototype, "data", {
+            get: function () {
+                return this._data;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return BaseEvent;
     }());
     h5game.BaseEvent = BaseEvent;

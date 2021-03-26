@@ -119,7 +119,7 @@ var h5game;
             this._objKeyValue[key] = value;
             var obj = { key: key };
             // 发送事件
-            // EventModule.instance.event(RedDotEvent.CHANGED, obj)
+            h5game.EventModule.instance.dispatch(h5game.RedDotEvent.CHANGED, this, new h5game.RedDotEvent(obj), true);
         };
         /**
          * 重置红点
@@ -127,7 +127,7 @@ var h5game;
         RedDotModule.prototype.resetRedDot = function () {
             this._objKeyValue = {};
             // 发送事件
-            // EventModule.instance.event(RedDotEvent.RESET)
+            h5game.EventModule.instance.dispatch(h5game.RedDotEvent.RESET, this, new h5game.RedDotEvent(), true);
         };
         /** 红点宽度 */
         RedDotModule.RED_DOT_WIDTH = 30;

@@ -38,10 +38,10 @@ var h5game;
         RedDot.prototype.registerRedDot = function (key, showValue) {
             this.setShowValue(showValue);
             this._nKey = key;
-            // EventModule.instance.on(RedDotEvent.CHANGED, this, this.onGameRedDot);
+            h5game.EventModule.instance.addEventListener(h5game.RedDotEvent.CHANGED, this, h5game.Handler.createPermanent(this, this.onGameRedDot));
         };
         RedDot.prototype.unregisterRedDot = function () {
-            // EventModule.instance.off(RedDotEvent.CHANGED, this, this.onGameRedDot);
+            h5game.EventModule.instance.removeEventListener(h5game.RedDotEvent.CHANGED, this);
         };
         RedDot.prototype.onGameRedDot = function (obj) {
             if (obj.key == this._nKey) {

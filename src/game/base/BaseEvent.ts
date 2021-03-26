@@ -10,7 +10,14 @@ module h5game {
      */
     export class BaseEvent {
 
-        constructor() {
+        private _data: any;
+
+        constructor(data?: any) {
+            this._data = data;
+        }
+
+        get data(): any {
+            return this._data;
         }
     }
 }
