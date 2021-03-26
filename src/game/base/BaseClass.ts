@@ -2,7 +2,7 @@
 
 module h5game {
 
-    
+
     export class BaseClass {
 
         constructor() {

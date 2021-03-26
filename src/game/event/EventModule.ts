@@ -7,25 +7,29 @@ module h5game {
     /**
      * 
      */
-    export class EventModule extends Laya.EventDispatcher {
+    export class EventModule extends BaseClass {
+
+        private _dictEvtForm: { [id: number]: Laya.Dictionary };
 
         constructor() {
             super();
+            this._dictEvtForm = {};
         }
 
-        static get instance(): EventModule {
-            let Class: any = this;
-            return Class._instance = Class._instance || new Class();
+        public static get instance(): EventModule {
+            return super.ins() as EventModule;
         }
 
-        static addEventListener() {
+        addEventListener(id: string, target: any, handler: Handler): void {
+            if (handler.once == false) {
+            }
+            // new Laya.Dictionary();
         }
 
-        static removeEventListener() {
+        removeEventListener(id: string, target: any): void {
         }
 
-        static dispatch() {
+        dispatch(id: string, target: any, event: BaseEvent, all: boolean): void {
         }
-
     }
 }

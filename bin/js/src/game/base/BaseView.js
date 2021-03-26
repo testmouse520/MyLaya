@@ -16,20 +16,23 @@ var __extends = (this && this.__extends) || (function () {
  */
 var h5game;
 (function (h5game) {
-    var UIBase = /** @class */ (function (_super) {
-        __extends(UIBase, _super);
-        function UIBase() {
+    /**
+     *
+     */
+    var BaseView = /** @class */ (function (_super) {
+        __extends(BaseView, _super);
+        function BaseView() {
             return _super.call(this) || this;
         }
-        UIBase.prototype.createView = function (uiView) {
+        BaseView.prototype.createView = function (uiView) {
             _super.prototype.createView.call(this, uiView);
         };
-        UIBase.prototype.onOpen = function () {
+        BaseView.prototype.onOpen = function () {
         };
-        UIBase.prototype.onClose = function () {
+        BaseView.prototype.onClose = function () {
         };
-        return UIBase;
+        return BaseView;
     }(Laya.View));
-    h5game.UIBase = UIBase;
+    h5game.BaseView = BaseView;
 })(h5game || (h5game = {}));
-//# sourceMappingURL=UIBase.js.map
+//# sourceMappingURL=BaseView.js.map

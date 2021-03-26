@@ -16,6 +16,9 @@ var __extends = (this && this.__extends) || (function () {
  */
 var h5game;
 (function (h5game) {
+    /**
+     *
+     */
     var BaseView = /** @class */ (function (_super) {
         __extends(BaseView, _super);
         function BaseView() {

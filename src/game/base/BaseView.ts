@@ -5,6 +5,9 @@
  */
 module h5game {
 
+    /**
+     * 
+     */
     export class BaseView extends Laya.View {
 
         constructor() {
