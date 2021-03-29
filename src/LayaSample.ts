@@ -22,12 +22,8 @@ module h5game {
         }
     }
 
-    export function assert(expr) {
-        if (/** Conf.DEBUG && */ !expr) {
-            throw new Error("ASSERT FAILED")
-        }
-    }
+    
 
-        
+
 }
 new h5game.GameMain();
