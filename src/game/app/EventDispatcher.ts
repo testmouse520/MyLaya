@@ -26,13 +26,12 @@ module h5game {
 
         /**
          * 添加事件
-         * 
          * @param id 
          * @param target 
          * @param handler 
          */
         addEventListener(id: string, target: any, handler: Handler): void {
-            assert(handler.once == false)
+            Global.assert(handler.once == false)
             if (target == undefined || this.ifStageEvent(id)) {
                 target = Laya.stage;
             }
@@ -44,7 +43,6 @@ module h5game {
 
         /**
          * 删除事件
-         * 
          * @param id 
          * @param target 
          */
@@ -67,7 +65,6 @@ module h5game {
 
         /**
          * 触发事件
-         * 
          * @param id 
          * @param target 
          * @param evt 
@@ -99,5 +96,6 @@ module h5game {
                 }
             }
         }
+
     }
 }

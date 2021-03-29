@@ -37,7 +37,7 @@ module h5game {
          * @param {*} date
          * @param {*} format
          */
-        static formatDate(date, format) {
+        static formatDate(date: Date, format: string): string {
             var o = {
                 // 月 
                 "M+": date.getMonth() + 1,
@@ -140,56 +140,51 @@ module h5game {
          * 获取本周星期几日期
          * @param {*} num 
          */
-        static getWeekByNum(num: number): Date {
-            var date = new Date();
+        static getWeekByNum(num: number, date?: Date): Date {
+            var date = date || new Date();
             date.setHours(0, 0, 0, 0)
             date.setDate(date.getDate() + (num - date.getDay()));
             return date;
         }
 
-        private static rollList: Array<number> = [];
+        private static rollList: { [key: string]: number } = {};
+
         /**
          * 开始滚动数字效果
-         * 
-         * @param p_type
-         * @param p_nNumber
-         * @param p_nOldNumber
-         * @param p_labelNode
+         * @param type
+         * @param newNumber
+         * @param oldNumber
+         * @param txt
          */
-        static startRollNumberEffect(p_type: number, p_nNumber: number, p_nOldNumber: number, p_labelNode: any): void {
-
-            let nDiffNumber: number = 0;            // 数字差。
-            let nOldNumber: number;                 // 原来的数字。
-            let nNewNumber: number;                 // 现在要变更的数字。
-            let startTime: number;                  // 开始时间。
-            let stopTime: number;                   // 结束时间。
+        static startRollNumberEffect(type: string, newNumber: number, oldNumber: number, txt: Laya.Label): void {
 
             // 先停止旧的：
             // 上次滚动效果没结束，直接停止，设置最新值。
-            if (Utils.rollList[p_type]) {
-                clearInterval(Utils.rollList[p_type]);
-                Utils.rollList[p_type] = null;
+            if (Utils.rollList[type]) {
+                clearInterval(Utils.rollList[type]);
+                Utils.rollList[type] = null;
             }
 
             // 值没有变化或者节点不存在
-            if (p_nNumber == p_nOldNumber || !p_labelNode) {
+            if (newNumber == oldNumber || !txt) {
                 return;
             }
 
-            nNewNumber = p_nNumber;
-            nOldNumber = p_nOldNumber;
-            nDiffNumber = nNewNumber - nOldNumber;
-            startTime = new Date().getTime();
-            stopTime = startTime + 1500; // 一秒钟时间：确保不超过2秒钟。
+            // 数字差。
+            let nDiffNumber = newNumber - oldNumber;
+            // 开始时间。
+            let startTime = new Date().getTime();
+            // 结束时间。
+            let stopTime = startTime + 1500; // 一秒钟时间：确保不超过2秒钟。
 
-            Utils.rollList[p_type] = setInterval(function () {
-                nOldNumber += nDiffNumber / 100;
-                p_labelNode.text = Math.floor(nOldNumber);
+            Utils.rollList[type] = setInterval(function () {
+                oldNumber += nDiffNumber / 100;
+                txt.text = '' + Math.floor(oldNumber);
                 // 条件满足时，停止效果：
-                if (nNewNumber >= nOldNumber && nDiffNumber < 0 || nNewNumber <= nOldNumber && nDiffNumber > 0 || stopTime < new Date().getTime()) {
-                    p_labelNode.text = nNewNumber;
-                    clearInterval(Utils.rollList[p_type]);
-                    Utils.rollList[p_type] = null;
+                if (newNumber >= oldNumber && nDiffNumber < 0 || newNumber <= oldNumber && nDiffNumber > 0 || stopTime < new Date().getTime()) {
+                    txt.text = '' + newNumber;
+                    clearInterval(Utils.rollList[type]);
+                    Utils.rollList[type] = null;
                 }
             }, 10);
         }

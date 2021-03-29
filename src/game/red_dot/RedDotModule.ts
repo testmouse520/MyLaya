@@ -125,7 +125,7 @@ module h5game {
 			this._objKeyValue[key] = value;
 			let obj: IRedDotInfo = { key: key };
 			// 发送事件
-			EventModule.instance.dispatch(RedDotEvent.CHANGED, this, new RedDotEvent(obj), true)
+			Global.evtMgr.dispatch(RedDotEvent.CHANGED, this, new RedDotEvent(obj), true)
 		}
 
 		/**
@@ -134,7 +134,7 @@ module h5game {
 		resetRedDot(): void {
 			this._objKeyValue = {};
 			// 发送事件
-			EventModule.instance.dispatch(RedDotEvent.RESET, this, new RedDotEvent(), true);
+			Global.evtMgr.dispatch(RedDotEvent.RESET, this, new RedDotEvent(), true);
 		}
 
 		// /**
