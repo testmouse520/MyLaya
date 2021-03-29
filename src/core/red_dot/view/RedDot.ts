@@ -38,7 +38,7 @@ module h5game {
 
         private onGameRedDot(obj: IRedDotInfo) {
             if (obj.key == this._nKey) {
-                let value: number = RedDotModule.instance.getRedDotValue(this._nKey);
+                let value: number = Global.redDotMgr.getRedDotValue(this._nKey);
                 this.ui_labelNumber.text = String(value);
                 this.visible = (value > 0);
             }

@@ -16,9 +16,9 @@ module h5game {
             this._dictEvtForm = {};
         }
 
-        public static get instance(): EventDispatcher {
-            return super.ins() as EventDispatcher;
-        }
+        // public static get instance(): EventDispatcher {
+        //     return super.ins() as EventDispatcher;
+        // }
 
         ifStageEvent(id: string): boolean {
             return false;

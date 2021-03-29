@@ -8,7 +8,7 @@ module h5game {
 	/**
 	 * 红点管理类
 	 */
-	export class RedDotModule extends BaseClass {
+	export class RedDotMgr extends BaseClass {
 
 		private _objChild2Parents: { [childKey: number]: Array<number> };
 		private _objParent2Childs: { [parentKey: number]: Array<number> };
@@ -28,9 +28,9 @@ module h5game {
 			// this.initAllRelevance();
 		}
 
-		public static get instance(): RedDotModule {
-			return super.ins() as RedDotModule;
-		}
+		// public static get instance(): RedDotModule {
+		// 	return super.ins() as RedDotModule;
+		// }
 
 		/**
 		 * 初始化键值关联
@@ -72,8 +72,8 @@ module h5game {
 
 			let showValue: boolean = (args && args.showValue) ? args.showValue : false;
 
-			let positionX: number = (args && args.positionX) ? args.positionX : targetNode.width - RedDotModule.RED_DOT_WIDTH;
-			let positionY: number = (args && args.positionY) ? args.positionY : RedDotModule.RED_DOT_HEGIHT / 2;
+			let positionX: number = (args && args.positionX) ? args.positionX : targetNode.width - RedDotMgr.RED_DOT_WIDTH;
+			let positionY: number = (args && args.positionY) ? args.positionY : RedDotMgr.RED_DOT_HEGIHT / 2;
 
 			let redDot = targetNode.getChildByName("RedDot") as RedDot;
 			if (!redDot) {

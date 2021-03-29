@@ -5,7 +5,7 @@
  */
 module h5game {
 
-    export class Utils {
+    export class CommonUtils {
 
         private static _gid: number = 10000;
 
@@ -13,7 +13,59 @@ module h5game {
          * 全局唯一值生成器：每次调用的值都不一样。
          */
         static getGID(): string {
-            return (Utils._gid++).toString();
+            return (CommonUtils._gid++).toString();
+        }
+
+        /**
+         * 万字的显示
+         * @param {Laya.Label|Laya.Text} label
+         * @param {number} num
+         */
+        static labelIsOverLenght(label: Laya.Label | Laya.Text, num: number): void {
+            let str = null;
+            if (num < 10000) {
+                str = num + "";
+            }
+            else if (num < 10000 * 1000) {
+                str = Math.floor(num / 10000).toString() + "万";
+            }
+            else {
+                str = Math.floor(num / 10000000).toString() + "千万";
+            }
+            label.text = str;
+        };
+
+        /**
+         * int64转number
+         * @param {any} obj
+         * @return {number}
+         */
+        static int64ToNumber(obj) {
+            return parseInt(obj.toString());
+        }
+
+        /**
+         * 深度复制
+         * @param {any} obj
+         * @return {any}
+         */
+        static copy(obj) {
+            let newObj;
+            if (obj instanceof Array) {
+                newObj = [];
+            }
+            else if (obj instanceof Object) {
+                newObj = {};
+            }
+            else {
+                return obj;
+            }
+            let keys = Object.keys(obj);
+            for (let i = 0, len = keys.length; i < len; i++) {
+                let key = keys[i];
+                newObj[key] = this.copy(obj[key]);
+            }
+            return newObj;
         }
 
         /**
@@ -30,34 +82,6 @@ module h5game {
                 str = str.replace(re, params[i]);
             }
             return str;
-        }
-
-        /**
-         * 格式化时间
-         * @param {*} date
-         * @param {*} format
-         */
-        static formatDate(date: Date, format: string): string {
-            var o = {
-                // 月 
-                "M+": date.getMonth() + 1,
-                // 日 
-                "d+": date.getDate(),
-                // 时 
-                "H+": date.getHours(),
-                // 分 
-                "m+": date.getMinutes(),
-                // 秒 
-                "s+": date.getSeconds(),
-                // 季度 
-                "q+": Math.floor((date.getMonth() + 3) / 3),
-                // 毫秒 
-                "S": date.getMilliseconds()
-            };
-            if (/(y+)/.test(format)) format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-            for (var k in o)
-                if (new RegExp("(" + k + ")").test(format)) format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            return format;
         }
 
         /**
@@ -160,9 +184,9 @@ module h5game {
 
             // 先停止旧的：
             // 上次滚动效果没结束，直接停止，设置最新值。
-            if (Utils.rollList[type]) {
-                clearInterval(Utils.rollList[type]);
-                Utils.rollList[type] = null;
+            if (CommonUtils.rollList[type]) {
+                clearInterval(CommonUtils.rollList[type]);
+                CommonUtils.rollList[type] = null;
             }
 
             // 值没有变化或者节点不存在
@@ -177,14 +201,14 @@ module h5game {
             // 结束时间。
             let stopTime = startTime + 1500; // 一秒钟时间：确保不超过2秒钟。
 
-            Utils.rollList[type] = setInterval(function () {
+            CommonUtils.rollList[type] = setInterval(function () {
                 oldNumber += nDiffNumber / 100;
                 txt.text = '' + Math.floor(oldNumber);
                 // 条件满足时，停止效果：
                 if (newNumber >= oldNumber && nDiffNumber < 0 || newNumber <= oldNumber && nDiffNumber > 0 || stopTime < new Date().getTime()) {
                     txt.text = '' + newNumber;
-                    clearInterval(Utils.rollList[type]);
-                    Utils.rollList[type] = null;
+                    clearInterval(CommonUtils.rollList[type]);
+                    CommonUtils.rollList[type] = null;
                 }
             }, 10);
         }
