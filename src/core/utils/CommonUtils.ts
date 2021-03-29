@@ -5,15 +5,18 @@
  */
 module h5game {
 
-    export class CommonUtils {
+    /**
+     * 
+     */
+    export class CommonUtils extends BaseClass {
 
-        private static _gid: number = 10000;
+        private _gid: number = 10000;
 
         /**
          * 全局唯一值生成器：每次调用的值都不一样。
          */
-        static getGID(): string {
-            return (CommonUtils._gid++).toString();
+        getGID(): string {
+            return (this._gid++).toString();
         }
 
         /**
@@ -21,7 +24,7 @@ module h5game {
          * @param {Laya.Label|Laya.Text} label
          * @param {number} num
          */
-        static labelIsOverLenght(label: Laya.Label | Laya.Text, num: number): void {
+        labelIsOverLenght(label: Laya.Label | Laya.Text, num: number): void {
             let str = null;
             if (num < 10000) {
                 str = num + "";
@@ -40,7 +43,7 @@ module h5game {
          * @param {any} obj
          * @return {number}
          */
-        static int64ToNumber(obj) {
+        int64ToNumber(obj) {
             return parseInt(obj.toString());
         }
 
@@ -49,7 +52,7 @@ module h5game {
          * @param {any} obj
          * @return {any}
          */
-        static copy(obj) {
+        copy(obj) {
             let newObj;
             if (obj instanceof Array) {
                 newObj = [];
@@ -74,7 +77,7 @@ module h5game {
          * @param params 
          * @returns 
          */
-        static stringFormat(str: string, ...params: any[]): string {
+        stringFormat(str: string, ...params: any[]): string {
             if (params.length == 0)
                 return null;
             for (var i = 0; i < params.length; i++) {
@@ -89,7 +92,7 @@ module h5game {
          * @param   angle 角度值。
          * @return  返回弧度值。
          */
-        static toRadian(angle: number): number {
+        toRadian(angle: number): number {
             return angle * Math.PI / 180;
         }
 
@@ -98,7 +101,7 @@ module h5game {
          * @param   radian 弧度值。
          * @return  返回角度值。
          */
-        static toAngle(radian: number): number {
+        toAngle(radian: number): number {
             return radian * 180 / Math.PI;
         }
 
@@ -110,7 +113,7 @@ module h5game {
         * @param   y1 点二的 Y 轴坐标值。
         * @return 弧度值。
         */
-        static getRotation(x0: number, y0: number, x1: number, y1: number): number {
+        getRotation(x0: number, y0: number, x1: number, y1: number): number {
             return Math.atan2(y1 - y0, x1 - x0) / Math.PI * 180;
         }
 
@@ -121,7 +124,7 @@ module h5game {
          * @param {*} x1 
          * @param {*} y1 
          */
-        static calcDist(x0: number, y0: number, x1: number, y1: number): number {
+        calcDist(x0: number, y0: number, x1: number, y1: number): number {
             return Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
         }
 
@@ -129,7 +132,7 @@ module h5game {
          * 数字转换大写
          * @param {*} value 
          */
-        static number2Chinese(value: number): string {
+        number2Chinese(value: number): string {
             let valueStr: string = value + '';
             let len: number = valueStr.length - 1;
             let idxs: Array<string> = ['', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '万', '十', '百', '千', '亿'];
@@ -164,14 +167,14 @@ module h5game {
          * 获取本周星期几日期
          * @param {*} num 
          */
-        static getWeekByNum(num: number, date?: Date): Date {
+        getWeekByNum(num: number, date?: Date): Date {
             var date = date || new Date();
             date.setHours(0, 0, 0, 0)
             date.setDate(date.getDate() + (num - date.getDay()));
             return date;
         }
 
-        private static rollList: { [key: string]: number } = {};
+        private _rollList: { [key: string]: number } = {};
 
         /**
          * 开始滚动数字效果
@@ -180,13 +183,13 @@ module h5game {
          * @param oldNumber
          * @param txt
          */
-        static startRollNumberEffect(type: string, newNumber: number, oldNumber: number, txt: Laya.Label): void {
+        startRollNumberEffect(type: string, newNumber: number, oldNumber: number, txt: Laya.Label): void {
 
             // 先停止旧的：
             // 上次滚动效果没结束，直接停止，设置最新值。
-            if (CommonUtils.rollList[type]) {
-                clearInterval(CommonUtils.rollList[type]);
-                CommonUtils.rollList[type] = null;
+            if (this._rollList[type]) {
+                clearInterval(this._rollList[type]);
+                this._rollList[type] = null;
             }
 
             // 值没有变化或者节点不存在
@@ -201,14 +204,14 @@ module h5game {
             // 结束时间。
             let stopTime = startTime + 1500; // 一秒钟时间：确保不超过2秒钟。
 
-            CommonUtils.rollList[type] = setInterval(function () {
+            this._rollList[type] = setInterval(function () {
                 oldNumber += nDiffNumber / 100;
                 txt.text = '' + Math.floor(oldNumber);
                 // 条件满足时，停止效果：
                 if (newNumber >= oldNumber && nDiffNumber < 0 || newNumber <= oldNumber && nDiffNumber > 0 || stopTime < new Date().getTime()) {
                     txt.text = '' + newNumber;
-                    clearInterval(CommonUtils.rollList[type]);
-                    CommonUtils.rollList[type] = null;
+                    clearInterval(this.rollList[type]);
+                    this.rollList[type] = null;
                 }
             }, 10);
         }

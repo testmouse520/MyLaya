@@ -1,15 +1,20 @@
 
-
+/**
+ * 
+ */
 module h5game {
 
-    export class DateUtils {
+    /**
+     * 
+     */
+    export class DateUtils extends BaseClass {
 
         /**
          * 1 格式化时间获取 00:00:00
          * @param {number} 时间戳差
          */
-        static formatTime(time) {
-            let str = "";
+        formatTime(time): string {
+            let str: string = "";
             let h = time / 3600;
             h = parseInt(h + "");
             let m = (time - h * 3600) / 60;
@@ -40,7 +45,7 @@ module h5game {
          * @param {string} 返回格式 "yyyy年MM月dd日"
          * @return {string} 返回指点格式字符串
          * */
-        static millisecondsToDate(time, fmt) {
+        millisecondsToDate(time, fmt) {
             let d = new Date(time);
             let o = {
                 "M+": d.getMonth() + 1,
