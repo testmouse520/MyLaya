@@ -4,7 +4,8 @@ import WebGL = Laya.WebGL;
 module h5game {
 
     // 程序入口
-    export class GameMain {
+    export class Main {
+
         constructor() {
             // Laya.HWMiniAdapter.init();
             // Laya.TTMiniAdapter.init();
@@ -17,13 +18,24 @@ module h5game {
             // Laya.QQMiniAdapter.init();
             // Laya.MiniAdpter.init();
 
-            Laya.init(600, 400, WebGL);
-            // Laya.DebugTool.init();
+            // Laya.init(600, 400, WebGL);
+            this.init();
+        }
+
+        init() {
+            Global.debugUtils.isDebug = true;
+            Global.commonUtils;
+            Global.stageUtils.init();
+
+            // //注册场景
+            // App.SceneManager.register(SceneConst.HOME, new HomeScene());
+        }
+
+        start() {
+            // App.SceneManager.runScene(SceneConst.HOME);
         }
     }
-
-    
-
-
 }
-new h5game.GameMain();
+
+let main = new h5game.Main();
+main.start();

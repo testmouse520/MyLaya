@@ -6,6 +6,9 @@
  */
 module h5game {
 
+    /**
+     * 
+     */
     export class ArrayUtils extends BaseClass {
 
         /**

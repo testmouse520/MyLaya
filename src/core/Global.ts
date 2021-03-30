@@ -11,6 +11,13 @@ module h5game {
 	export class Global {
 
 		/**
+		 * 生成获取类
+		 */
+		static get ClassManager(): ClassManager {
+			return ClassManager.getInstance() as ClassManager;
+		}
+
+		/**
 		 * 事件触发
 		 */
 		static get evtMgr(): EventDispatcher {
@@ -48,15 +55,58 @@ module h5game {
 		/**
 		 * 单例获取随机工具类
 		 */
-		static get randomUtils() {
-			return RandomUtils.getInstance();
+		static get randomUtils(): RandomUtils {
+			return RandomUtils.getInstance() as RandomUtils;
+		}
+
+		/**
+		 * 单例获取调试工具类
+		 */
+		static get debugUtils(): DebugUtils {
+			return DebugUtils.getInstance() as DebugUtils;
+		}
+
+		/**
+		 * 单例获取字符串工具类
+		 */
+		static get stringUtils(): StringUtils {
+			return StringUtils.getInstance() as StringUtils;
+		}
+
+		/**
+		 * 单例获取md5加密工具类
+		 */
+		static get md5(): MD5 {
+			return MD5.getInstance() as MD5;
+		}
+
+		/**
+		 * 单例获取sha1加密工具类
+		 */
+		static get sha1(): SHA1 {
+			return SHA1.getInstance() as SHA1;
+		}
+
+		/**
+		 * 单例获取舞台工具类（包含：舞台初始化、舞台宽高获取等）
+		 */
+		static get stageUtils(): StageUtils {
+			return StageUtils.getInstance() as StageUtils;
+		}
+
+		static _gid: number = 10000;
+
+        /**
+         * 全局唯一值生成器：每次调用的值都不一样。
+         */
+		static getGID(): string {
+			return (Global._gid++).toString();
 		}
 
 		static assert(expr) {
-			if (Conf.DEBUG && !expr) {
+			if (Global.debugUtils.isDebug && !expr) {
 				throw new Error("ASSERT FAILED")
 			}
 		}
-
 	}
 }

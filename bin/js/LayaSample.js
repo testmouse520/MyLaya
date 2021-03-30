@@ -20,12 +20,6 @@ var h5game;
         return GameMain;
     }());
     h5game.GameMain = GameMain;
-    function assert(expr) {
-        if ( /** Conf.DEBUG && */!expr) {
-            throw new Error("ASSERT FAILED");
-        }
-    }
-    h5game.assert = assert;
 })(h5game || (h5game = {}));
 new h5game.GameMain();
 //# sourceMappingURL=LayaSample.js.map
