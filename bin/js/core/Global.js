@@ -9,7 +9,7 @@ var h5game;
     var Global = /** @class */ (function () {
         function Global() {
         }
-        Object.defineProperty(Global, "ClassManager", {
+        Object.defineProperty(Global, "classManager", {
             /**
              * 生成获取类
              */
@@ -125,6 +125,16 @@ var h5game;
              */
             get: function () {
                 return h5game.StageUtils.getInstance();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Global, "layerMgr", {
+            /**
+             * 层级管理
+             */
+            get: function () {
+                return h5game.LayerMgr.getInstance();
             },
             enumerable: true,
             configurable: true

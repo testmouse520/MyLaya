@@ -13,7 +13,7 @@ module h5game {
 		/**
 		 * 生成获取类
 		 */
-		static get ClassManager(): ClassManager {
+		static get classManager(): ClassManager {
 			return ClassManager.getInstance() as ClassManager;
 		}
 
@@ -94,15 +94,22 @@ module h5game {
 			return StageUtils.getInstance() as StageUtils;
 		}
 
+		/**
+		 * 层级管理
+		 */
+		static get layerMgr(): LayerMgr {
+			return LayerMgr.getInstance() as LayerMgr;
+		}
+
 		static get handler() {
 			return BaseHandler;
 		}
 
 		static _gid: number = 10000;
 
-        /**
-         * 全局唯一值生成器：每次调用的值都不一样。
-         */
+		/**
+		 * 全局唯一值生成器：每次调用的值都不一样。
+		 */
 		static getGID(): string {
 			return (Global._gid++).toString();
 		}
