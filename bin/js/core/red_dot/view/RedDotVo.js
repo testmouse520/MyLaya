@@ -19,39 +19,39 @@ var h5game;
     /**
      *
      */
-    var RedDot = /** @class */ (function (_super) {
-        __extends(RedDot, _super);
-        function RedDot() {
+    var RedDotVo = /** @class */ (function (_super) {
+        __extends(RedDotVo, _super);
+        function RedDotVo() {
             var _this = _super.call(this) || this;
             _this._bShowValue = false;
             _this._nKey = -1;
             return _this;
         }
-        RedDot.prototype.createView = function (uiView) {
+        RedDotVo.prototype.createView = function (uiView) {
             _super.prototype.createView.call(this, uiView);
             this.visible = this.ui_labelNumber.visible = false;
         };
-        RedDot.prototype.setShowValue = function (showValue) {
+        RedDotVo.prototype.setShowValue = function (showValue) {
             this._bShowValue = showValue;
             this.ui_labelNumber.visible = this._bShowValue;
         };
-        RedDot.prototype.registerRedDot = function (key, showValue) {
+        RedDotVo.prototype.registerRedDot = function (key, showValue) {
             this.setShowValue(showValue);
             this._nKey = key;
-            h5game.Global.evtMgr.addEventListener(h5game.RedDotEvent.CHANGED, this, Handler.createPermanent(this, this.onGameRedDot));
+            h5game.Global.evtMgr.addEventListener(h5game.RedDotEvent.CHANGED, this, h5game.Global.handler.createPermanent(this, this.onGameRedDot));
         };
-        RedDot.prototype.unregisterRedDot = function () {
+        RedDotVo.prototype.unregisterRedDot = function () {
             h5game.Global.evtMgr.removeEventListener(h5game.RedDotEvent.CHANGED, this);
         };
-        RedDot.prototype.onGameRedDot = function (obj) {
+        RedDotVo.prototype.onGameRedDot = function (obj) {
             if (obj.key == this._nKey) {
                 var value = h5game.Global.redDotMgr.getRedDotValue(this._nKey);
                 this.ui_labelNumber.text = String(value);
                 this.visible = (value > 0);
             }
         };
-        return RedDot;
+        return RedDotVo;
     }(ui.common.RedDotUI));
-    h5game.RedDot = RedDot;
+    h5game.RedDotVo = RedDotVo;
 })(h5game || (h5game = {}));
-//# sourceMappingURL=RedDot.js.map
+//# sourceMappingURL=RedDotVo.js.map

@@ -72,7 +72,7 @@ var h5game;
             var positionY = (args && args.positionY) ? args.positionY : RedDotMgr.RED_DOT_HEGIHT / 2;
             var redDot = targetNode.getChildByName("RedDot");
             if (!redDot) {
-                redDot = new h5game.RedDot();
+                redDot = new h5game.RedDotVo();
                 redDot.x = positionX;
                 redDot.y = positionY;
                 targetNode.addChild(redDot);

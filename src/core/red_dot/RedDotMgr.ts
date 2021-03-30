@@ -75,9 +75,9 @@ module h5game {
 			let positionX: number = (args && args.positionX) ? args.positionX : targetNode.width - RedDotMgr.RED_DOT_WIDTH;
 			let positionY: number = (args && args.positionY) ? args.positionY : RedDotMgr.RED_DOT_HEGIHT / 2;
 
-			let redDot = targetNode.getChildByName("RedDot") as RedDot;
+			let redDot = targetNode.getChildByName("RedDot") as RedDotVo;
 			if (!redDot) {
-				redDot = new RedDot();
+				redDot = new RedDotVo();
 				redDot.x = positionX;
 				redDot.y = positionY;
 				targetNode.addChild(redDot);

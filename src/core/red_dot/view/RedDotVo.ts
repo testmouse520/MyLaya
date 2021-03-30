@@ -7,7 +7,7 @@ module h5game {
     /**
      * 
      */
-    export class RedDot extends ui.common.RedDotUI implements IRedDot {
+    export class RedDotVo extends ui.common.RedDotUI implements IRedDot {
 
         private _bShowValue: boolean = false;
         private _nKey: number = -1;
@@ -29,7 +29,7 @@ module h5game {
         registerRedDot(key: number, showValue: boolean): void {
             this.setShowValue(showValue);
             this._nKey = key;
-            Global.evtMgr.addEventListener(RedDotEvent.CHANGED, this, Handler.createPermanent(this, this.onGameRedDot));
+            Global.evtMgr.addEventListener(RedDotEvent.CHANGED, this, Global.handler.createPermanent(this, this.onGameRedDot));
         }
 
         unregisterRedDot(): void {

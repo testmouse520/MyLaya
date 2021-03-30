@@ -20,8 +20,8 @@ module h5game {
 		/**
 		 * 事件触发
 		 */
-		static get evtMgr(): EventDispatcher {
-			return EventDispatcher.getInstance() as EventDispatcher;
+		static get evtMgr(): BaseEventDispatcher {
+			return BaseEventDispatcher.getInstance() as BaseEventDispatcher;
 		}
 
 		/**
@@ -92,6 +92,10 @@ module h5game {
 		 */
 		static get stageUtils(): StageUtils {
 			return StageUtils.getInstance() as StageUtils;
+		}
+
+		static get handler() {
+			return BaseHandler;
 		}
 
 		static _gid: number = 10000;

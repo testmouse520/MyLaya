@@ -8,9 +8,9 @@ module h5game {
     /**
      * 
      */
-    export class Handler extends Laya.Handler {
+    export class BaseHandler extends Laya.Handler {
 
-        static createOnce(caller: any, method: Function, args?: Array<any>): Handler {
+        static createOnce(caller: any, method: Function, args?: Array<any>): Laya.Handler {
             return Laya.Handler.create(caller, method, args, true)
         }
 

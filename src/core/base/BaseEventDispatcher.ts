@@ -7,7 +7,7 @@ module h5game {
     /**
      * 
      */
-    export class EventDispatcher extends BaseClass {
+    export class BaseEventDispatcher extends BaseClass {
 
         private _dictEvtForm: { [id: string]: Laya.Dictionary };
 
@@ -30,7 +30,7 @@ module h5game {
          * @param target 
          * @param handler 
          */
-        addEventListener(id: string, target: any, handler: Handler): void {
+        addEventListener(id: string, target: any, handler: Laya.Handler): void {
             Global.assert(handler.once == false)
             if (target == undefined || this.ifStageEvent(id)) {
                 target = Laya.stage;
@@ -38,7 +38,7 @@ module h5game {
             if (this._dictEvtForm[id] = undefined) {
                 this._dictEvtForm[id] = new Laya.Dictionary();
             }
-            this._dictEvtForm[id].set(target, Handler);
+            this._dictEvtForm[id].set(target, handler);
         }
 
         /**
