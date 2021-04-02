@@ -25,9 +25,9 @@ var h5game;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         /** 改变 */
-        RedDotEvent.CHANGED = h5game.Utils.getGID();
+        RedDotEvent.CHANGED = h5game.Global.getGID();
         /** 重置 */
-        RedDotEvent.RESET = h5game.Utils.getGID();
+        RedDotEvent.RESET = h5game.Global.getGID();
         return RedDotEvent;
     }(h5game.BaseEvent));
     h5game.RedDotEvent = RedDotEvent;

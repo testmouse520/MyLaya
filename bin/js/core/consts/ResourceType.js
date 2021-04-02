@@ -1,7 +1,13 @@
+/**
+ *
+ */
 var h5game;
 (function (h5game) {
     var consts;
     (function (consts) {
+        /**
+         *
+         */
         var ResourceType = /** @class */ (function () {
             function ResourceType() {
             }

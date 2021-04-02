@@ -1,7 +1,12 @@
 
-
+/**
+ * 
+ */
 module h5game.consts {
 
+    /**
+     * 
+     */
     export class ResourceType {
         static PNG = "png";
         static JPG = "jpg";

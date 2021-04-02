@@ -132,5 +132,20 @@ module h5game {
             return retStr;
         }
 
+        /**
+         * 字符串格式化
+         * @param str 
+         * @param params 
+         * @returns 
+         */
+        stringFormat(str: string, ...params: any[]): string {
+            if (params.length == 0)
+                return null;
+            for (var i = 0; i < params.length; i++) {
+                var re = new RegExp('\\{' + i + '\\}', 'gm');
+                str = str.replace(re, params[i]);
+            }
+            return str;
+        }
     }
 }

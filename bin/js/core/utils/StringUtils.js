@@ -134,6 +134,25 @@ var h5game;
             }
             return retStr;
         };
+        /**
+         * 字符串格式化
+         * @param str
+         * @param params
+         * @returns
+         */
+        StringUtils.prototype.stringFormat = function (str) {
+            var params = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                params[_i - 1] = arguments[_i];
+            }
+            if (params.length == 0)
+                return null;
+            for (var i = 0; i < params.length; i++) {
+                var re = new RegExp('\\{' + i + '\\}', 'gm');
+                str = str.replace(re, params[i]);
+            }
+            return str;
+        };
         return StringUtils;
     }(h5game.BaseClass));
     h5game.StringUtils = StringUtils;

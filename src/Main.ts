@@ -24,7 +24,6 @@ module h5game {
 
         init() {
             Global.debugUtils.isDebug = true;
-            Global.commonUtils;
             Global.stageUtils.init();
 
             // //注册场景

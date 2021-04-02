@@ -19,7 +19,6 @@ var h5game;
         }
         Main.prototype.init = function () {
             h5game.Global.debugUtils.isDebug = true;
-            h5game.Global.commonUtils;
             h5game.Global.stageUtils.init();
             // //注册场景
             // App.SceneManager.register(SceneConst.HOME, new HomeScene());

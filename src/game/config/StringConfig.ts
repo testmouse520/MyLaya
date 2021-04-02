@@ -1,9 +1,16 @@
+
+
+
 /**
-* name 
-*/
-module h5game{
-	export class StringConfig{
-		constructor(){
+ * 
+ */
+module h5game {
+
+	/**
+	 * 
+	 */
+	export class StringConfig {
+		constructor() {
 		}
 	}
 }

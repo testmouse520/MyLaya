@@ -139,6 +139,16 @@ var h5game;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Global, "mathUtils", {
+            /**
+             * 单例获取number处理工具类
+             */
+            get: function () {
+                return h5game.MathUtils.getInstance();
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Global, "handler", {
             get: function () {
                 return h5game.BaseHandler;

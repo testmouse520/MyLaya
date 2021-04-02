@@ -101,6 +101,13 @@ module h5game {
 			return LayerMgr.getInstance() as LayerMgr;
 		}
 
+		/**
+		 * 单例获取number处理工具类
+		 */
+		static get mathUtils() {
+			return MathUtils.getInstance();
+		}
+
 		static get handler() {
 			return BaseHandler;
 		}
