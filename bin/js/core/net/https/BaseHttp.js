@@ -8,6 +8,7 @@ var h5game;
      */
     var BaseHttp = /** @class */ (function () {
         function BaseHttp() {
+            // Primus.connect(self.data.connectionUrl);
         }
         return BaseHttp;
     }());

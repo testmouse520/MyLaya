@@ -20,11 +20,15 @@ var h5game;
         Main.prototype.init = function () {
             h5game.Global.debugUtils.isDebug = true;
             h5game.Global.stageUtils.init();
+            h5game.Global.layerMgr.init();
             // //注册场景
             // App.SceneManager.register(SceneConst.HOME, new HomeScene());
         };
         Main.prototype.start = function () {
             // App.SceneManager.runScene(SceneConst.HOME);
+            console.log("11111111111111");
+            // Global.stageUtils.stage.addChild(new MainCity());
+            h5game.Global.layerMgr.openView(h5game.MainCity);
         };
         return Main;
     }());

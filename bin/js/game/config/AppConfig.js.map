@@ -1,1 +1,1 @@
-{"version":3,"file":"AppConfig.js","sourceRoot":"","sources":["../../../../src/game/config/AppConfig.ts"],"names":[],"mappings":"AAAA;;EAEE;AACF,IAAO,MAAM,CAMZ;AAND,WAAO,MAAM;IACZ;QACC;QAEA,CAAC;QACF,gBAAC;IAAD,CAAC,AAJD,IAIC;IAJY,gBAAS,YAIrB,CAAA;AACF,CAAC,EANM,MAAM,KAAN,MAAM,QAMZ"}
+{"version":3,"file":"AppConfig.js","sourceRoot":"","sources":["../../../../src/game/config/AppConfig.ts"],"names":[],"mappings":"AAEA;;GAEG;AACH,IAAO,MAAM,CASZ;AATD,WAAO,MAAM;IAEZ;;OAEG;IACH;QACC;QACA,CAAC;QACF,gBAAC;IAAD,CAAC,AAHD,IAGC;IAHY,gBAAS,YAGrB,CAAA;AACF,CAAC,EATM,MAAM,KAAN,MAAM,QASZ"}

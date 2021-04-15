@@ -24,7 +24,7 @@ var h5game;
              * 事件触发
              */
             get: function () {
-                return h5game.BaseEventDispatcher.getInstance();
+                return h5game.EventDispatcher.getInstance();
             },
             enumerable: true,
             configurable: true
@@ -151,7 +151,7 @@ var h5game;
         });
         Object.defineProperty(Global, "handler", {
             get: function () {
-                return h5game.BaseHandler;
+                return h5game.Handler;
             },
             enumerable: true,
             configurable: true

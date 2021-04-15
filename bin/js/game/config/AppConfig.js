@@ -1,8 +1,11 @@
 /**
-* name
-*/
+ *
+ */
 var h5game;
 (function (h5game) {
+    /**
+     *
+     */
     var AppConfig = /** @class */ (function () {
         function AppConfig() {
         }

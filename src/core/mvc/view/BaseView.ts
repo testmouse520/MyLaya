@@ -11,28 +11,94 @@ module h5game {
     export class BaseView extends Laya.View {
 
         private _maskBg: Laya.Sprite;
-        private _nMaskAlpha: number;
-        private _isMaskBg: boolean;
+        private _eventArray: Array<string>;
+
+        private _isLoadRes: boolean = false;
+
+        protected arrayRes: Array<{ url: string, type: string }>;
+        protected nMaskAlpha: number;
+        protected isMaskBg: boolean;
+
+        private _uiView: any;
+        private _layerName: string;
+        private _root: Laya.Box;
+
+        set root(p: Laya.Box) {
+            this._root = p;
+        }
+
+        get root(): Laya.Box {
+            return this._root;
+        }
+
+        set layerName(name: string) {
+            this._layerName = name;
+        }
+
+        get layerName(): string {
+            return this._layerName;
+        }
 
         constructor() {
             super();
             this._maskBg = null;
-            this._nMaskAlpha = 0.5;
-            this._isMaskBg = false;
-
+            this.arrayRes = [];
+            this.nMaskAlpha = 0.5;
+            this.isMaskBg = false;
             this.initRes();
         }
 
-        protected onOpen() {
+        protected createView(uiView: any): void {
+            this._uiView = uiView;
+        }
+
+        onOpen() {
+            this.root.addChild(this);
             //resize尺寸变化监听事件
-            if (this._isMaskBg)
-                this.parent.addChildAt(this.maskBg, this.parent.getChildIndex(this));
+            if (this.isMaskBg)
+                this.parent.addChildAt(this.maskBg, 0);
             this.onResize();
             Global.stageUtils.stage.on(Laya.Event.RESIZE, this, this.onResize);
         }
 
-        protected onClose() {
+        onClose() {
+            this.removeSelf();
+
             Global.stageUtils.stage.off(Laya.Event.RESIZE, this, this.onResize);
+
+            if (this._eventArray && this._eventArray.length) {
+                for (let i = 0, length = this._eventArray.length; i < length; i++) {
+                    this.removeEventListener(this._eventArray[i]);
+                }
+            }
+            this._eventArray.length = 0;
+        }
+
+        /**
+         * 监听事件
+         * @param id 
+         * @param handler 
+         */
+        protected addEventListener(id: string, handler: Laya.Handler): void {
+            (this._eventArray = this._eventArray || []) && this._eventArray.push(id);
+            Global.evtMgr.addEventListener(id, this, handler);
+        }
+
+        /**
+         * 注销事件
+         * @param id 
+         */
+        protected removeEventListener(id): void {
+            Global.evtMgr.removeEventListener(id, this);
+        }
+
+        /**
+         * 触发事件
+         * @param id 
+         * @param evt 
+         */
+        protected dispatch(id: string, evt: BaseEvent) {
+            Global.evtMgr.dispatch(id, this, evt)
         }
 
         /**
@@ -41,6 +107,52 @@ module h5game {
          */
         protected initRes() {
         }
+
+        /**
+         * 是否正在加载
+         * 
+         * @return boolean
+         */
+        get isLoadRes(): boolean {
+            return this._isLoadRes;
+        }
+
+        /**
+         * 是否资源完成
+         * 
+         * @return boolean
+         */
+        get isResComplete(): boolean {
+            if (this.arrayRes && this.arrayRes.length > 0) {
+                for (let i = 0, len = this.arrayRes.length; i < len; i++) {
+                    let url = this.arrayRes[i].url;
+                    if (Laya.loader.getRes(url) == undefined) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        // private _loadComplete: Handler = null;
+        // private _loadProgress: Handler = null;
+
+        loadRes() {
+            // this._loadComplete = complete || Handler.createOnce(this, this.onLoadComplete);
+            // this._loadProgress = progress;
+            this._isLoadRes = true;
+            Laya.loader.load(this.arrayRes, Handler.createOnce(this, this.onLoadComplete), null, Laya.Loader.ATLAS, 1);
+        }
+
+        onLoadComplete(complete: boolean): void {
+            this._isLoadRes = false;
+            if (complete) {
+            } else {
+            }
+            super.createView(this._uiView);
+            this.onOpen();
+        }
+
 
         /**
          * 对面板进行显示初始化，用于子类继承
@@ -71,12 +183,12 @@ module h5game {
          * 黑色背景底层
          */
         private get maskBg() {
-            if (this._isMaskBg) {
+            if (this.isMaskBg) {
                 if (!this._maskBg) {
                     this._maskBg = new Laya.Sprite();
                     this._maskBg.graphics.drawRect(0, 0, Global.stageUtils.stageW, Global.stageUtils.stageH, "#000000");
                     this._maskBg.mouseEnabled = true;
-                    this._maskBg.alpha = this._nMaskAlpha;
+                    this._maskBg.alpha = this.nMaskAlpha;
                 }
             }
             return this._maskBg;

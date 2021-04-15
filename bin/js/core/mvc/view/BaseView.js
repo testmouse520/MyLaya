@@ -23,27 +23,133 @@ var h5game;
         __extends(BaseView, _super);
         function BaseView() {
             var _this = _super.call(this) || this;
+            _this._isLoadRes = false;
             _this._maskBg = null;
-            _this._nMaskAlpha = 0.5;
-            _this._isMaskBg = false;
+            _this.arrayRes = [];
+            _this.nMaskAlpha = 0.5;
+            _this.isMaskBg = false;
             _this.initRes();
             return _this;
         }
+        Object.defineProperty(BaseView.prototype, "root", {
+            get: function () {
+                return this._root;
+            },
+            set: function (p) {
+                this._root = p;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(BaseView.prototype, "layerName", {
+            get: function () {
+                return this._layerName;
+            },
+            set: function (name) {
+                this._layerName = name;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        BaseView.prototype.createView = function (uiView) {
+            this._uiView = uiView;
+        };
         BaseView.prototype.onOpen = function () {
+            this.root.addChild(this);
             //resize尺寸变化监听事件
-            if (this._isMaskBg)
-                this.parent.addChildAt(this.maskBg, this.parent.getChildIndex(this));
+            if (this.isMaskBg)
+                this.parent.addChildAt(this.maskBg, 0);
             this.onResize();
             h5game.Global.stageUtils.stage.on(Laya.Event.RESIZE, this, this.onResize);
         };
         BaseView.prototype.onClose = function () {
+            this.removeSelf();
             h5game.Global.stageUtils.stage.off(Laya.Event.RESIZE, this, this.onResize);
+            if (this._eventArray && this._eventArray.length) {
+                for (var i = 0, length_1 = this._eventArray.length; i < length_1; i++) {
+                    this.removeEventListener(this._eventArray[i]);
+                }
+            }
+            this._eventArray.length = 0;
+        };
+        /**
+         * 监听事件
+         * @param id
+         * @param handler
+         */
+        BaseView.prototype.addEventListener = function (id, handler) {
+            (this._eventArray = this._eventArray || []) && this._eventArray.push(id);
+            h5game.Global.evtMgr.addEventListener(id, this, handler);
+        };
+        /**
+         * 注销事件
+         * @param id
+         */
+        BaseView.prototype.removeEventListener = function (id) {
+            h5game.Global.evtMgr.removeEventListener(id, this);
+        };
+        /**
+         * 触发事件
+         * @param id
+         * @param evt
+         */
+        BaseView.prototype.dispatch = function (id, evt) {
+            h5game.Global.evtMgr.dispatch(id, this, evt);
         };
         /**
          * 子类继承必须实现，赋值加载资源
          * @param [{url: , type: }]
          */
         BaseView.prototype.initRes = function () {
+        };
+        Object.defineProperty(BaseView.prototype, "isLoadRes", {
+            /**
+             * 是否正在加载
+             *
+             * @return boolean
+             */
+            get: function () {
+                return this._isLoadRes;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(BaseView.prototype, "isResComplete", {
+            /**
+             * 是否资源完成
+             *
+             * @return boolean
+             */
+            get: function () {
+                if (this.arrayRes && this.arrayRes.length > 0) {
+                    for (var i = 0, len = this.arrayRes.length; i < len; i++) {
+                        var url = this.arrayRes[i].url;
+                        if (Laya.loader.getRes(url) == undefined) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        // private _loadComplete: Handler = null;
+        // private _loadProgress: Handler = null;
+        BaseView.prototype.loadRes = function () {
+            // this._loadComplete = complete || Handler.createOnce(this, this.onLoadComplete);
+            // this._loadProgress = progress;
+            this._isLoadRes = true;
+            Laya.loader.load(this.arrayRes, h5game.Handler.createOnce(this, this.onLoadComplete), null, Laya.Loader.ATLAS, 1);
+        };
+        BaseView.prototype.onLoadComplete = function (complete) {
+            this._isLoadRes = false;
+            if (complete) {
+            }
+            else {
+            }
+            _super.prototype.createView.call(this, this._uiView);
+            this.onOpen();
         };
         /**
          * 对面板进行显示初始化，用于子类继承
@@ -72,12 +178,12 @@ var h5game;
              * 黑色背景底层
              */
             get: function () {
-                if (this._isMaskBg) {
+                if (this.isMaskBg) {
                     if (!this._maskBg) {
                         this._maskBg = new Laya.Sprite();
                         this._maskBg.graphics.drawRect(0, 0, h5game.Global.stageUtils.stageW, h5game.Global.stageUtils.stageH, "#000000");
                         this._maskBg.mouseEnabled = true;
-                        this._maskBg.alpha = this._nMaskAlpha;
+                        this._maskBg.alpha = this.nMaskAlpha;
                     }
                 }
                 return this._maskBg;

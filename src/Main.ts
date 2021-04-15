@@ -25,13 +25,16 @@ module h5game {
         init() {
             Global.debugUtils.isDebug = true;
             Global.stageUtils.init();
-
+            Global.layerMgr.init();
             // //注册场景
             // App.SceneManager.register(SceneConst.HOME, new HomeScene());
         }
 
         start() {
             // App.SceneManager.runScene(SceneConst.HOME);
+            console.log("11111111111111")
+            // Global.stageUtils.stage.addChild(new MainCity());
+            Global.layerMgr.openView(MainCity);
         }
     }
 }

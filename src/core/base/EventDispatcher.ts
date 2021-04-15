@@ -7,7 +7,7 @@ module h5game {
     /**
      * 
      */
-    export class BaseEventDispatcher extends BaseClass {
+    export class EventDispatcher extends BaseClass {
 
         private _dictEvtForm: { [id: string]: Laya.Dictionary };
 
