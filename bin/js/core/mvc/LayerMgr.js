@@ -29,7 +29,8 @@ var h5game;
             ];
             _this._objLayer = {};
             _this._objUIClass = {};
-            _this._objBaseView = {};
+            _this._objUICache = {};
+            _this._objUIOpen = {};
             return _this;
         }
         LayerMgr.prototype.init = function () {
@@ -41,6 +42,7 @@ var h5game;
             this.initLayer();
             h5game.Global.stageUtils.stage.on(Laya.Event.RESIZE, this, this.onStageResize);
             this.onStageResize();
+            Laya.timer.frameLoop(300, this, this.onTick);
         };
         LayerMgr.prototype.initLayer = function () {
             for (var i = 0, len = this._arrayLayer.length; i < len; i++) {
@@ -51,6 +53,7 @@ var h5game;
                 layer.left = layer.right = layer.top = layer.bottom = 0;
                 this._allLayer.addChild(layer);
                 this._objLayer[layerName] = layer;
+                this._objUIOpen[layerName] = [];
             }
         };
         LayerMgr.prototype.getUIName = function (uiClass) {
@@ -64,30 +67,84 @@ var h5game;
         };
         LayerMgr.prototype.createUI = function (uiName) {
             var uiClass = this._objUIClass[uiName];
-            var ui = new uiClass();
-            ui.name = uiName;
-            this._objBaseView[uiName] = ui;
-            return ui;
+            var view = new uiClass();
+            view.name = uiName;
+            this._objUICache[uiName] = view;
+            return view;
         };
+        /**
+         * 是否打开
+         *
+         * @param uiName
+         */
+        LayerMgr.prototype.isOpening = function (uiName) {
+            var view = this._objUICache[uiName];
+            var layerName = view.layerName;
+            var arryaOpen = this._objUIOpen[layerName];
+            return arryaOpen.indexOf(view) > -1;
+        };
+        /**
+         * 打开UI
+         *
+         * @param uiClass
+         * @param layerName
+         * @param args
+         */
         LayerMgr.prototype.openView = function (uiClass, layerName, args) {
             if (layerName === void 0) { layerName = LayerMgr.LAYER_WINDOW; }
             if (args === void 0) { args = null; }
             var uiName = this.getUIName(uiClass);
             var layerRoot = this._objLayer[layerName];
-            var ui = this._objBaseView[uiName];
-            if (ui == undefined) {
-                ui = this.createUI(uiName);
+            var view = this._objUICache[uiName];
+            var isCreate = false;
+            if (view == undefined) {
+                isCreate = true;
+                view = this.createUI(uiName);
             }
-            ui.root = layerRoot;
-            ui.layerName = layerName;
-            if (!ui.isResComplete && !ui.isLoadRes) {
-                ui.loadRes();
+            view.root = layerRoot;
+            view.layerName = layerName;
+            if (!view.isResComplete && !view.isLoadRes || isCreate) {
+                view.loadRes();
             }
             else {
-                ui.onOpen();
+                view.onOpen();
+            }
+            if (!this.isOpening(uiName)) {
+                this._objUIOpen[layerName].push(view);
             }
         };
+        /**
+         * 关闭UI
+         * @param uiClass
+         */
         LayerMgr.prototype.colseView = function (uiClass) {
+            var uiName = this.getUIName(uiClass);
+            var view = this._objUICache[uiName];
+            if (view == undefined || view == null)
+                return null;
+            if (view.closeTime != -1)
+                return view;
+            var layerName = view.layerName;
+            var arrayOpen = this._objUIOpen[layerName];
+            var uiIndex = arrayOpen.indexOf(view);
+            if (uiIndex != -1) {
+                arrayOpen.splice(uiIndex, 1);
+                view.onClose();
+            }
+            return view;
+        };
+        LayerMgr.prototype.destroyUI = function (view) {
+            this.colseView(view);
+            delete this._objUICache[view.name];
+            view.destroy(true);
+        };
+        LayerMgr.prototype.onTick = function () {
+            for (var key in this._objUICache) {
+                var view = this._objUICache[key];
+                if (view && view.closeTime != -1 && (Date.now() - view.closeTime) >= LayerMgr.DESTROY_TIME) {
+                    this.destroyUI(view);
+                }
+            }
         };
         LayerMgr.prototype.onStageResize = function () {
             var scale = Math.min(h5game.Global.stageUtils.stage.width / h5game.Global.stageUtils.stage.designWidth, h5game.Global.stageUtils.stage.height / h5game.Global.stageUtils.stage.designHeight);
@@ -106,6 +163,8 @@ var h5game;
         LayerMgr.LAYER_TIP = "LAYER_TIP";
         // 最顶层
         LayerMgr.LAYER_TOP = "LAYER_TOP";
+        // 定时销毁时间
+        LayerMgr.DESTROY_TIME = 1 * 60 * 1000;
         return LayerMgr;
     }(h5game.BaseClass));
     h5game.LayerMgr = LayerMgr;

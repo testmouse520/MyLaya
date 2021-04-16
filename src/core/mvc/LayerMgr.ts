@@ -23,7 +23,13 @@ module h5game {
         private _objLayer: { [key: string]: Laya.Box };
 
         private _objUIClass: { [key: string]: any };
-        private _objBaseView: { [key: string]: BaseView };
+        // UI缓存集合
+        private _objUICache: { [key: string]: BaseView };
+        // UI打开集合
+        private _objUIOpen: { [key: string]: Array<BaseView> };
+
+        // 定时销毁时间
+        private static DESTROY_TIME: number = 1 * 60 * 1000;
 
         constructor() {
             super();
@@ -36,7 +42,8 @@ module h5game {
             ];
             this._objLayer = {};
             this._objUIClass = {};
-            this._objBaseView = {};
+            this._objUICache = {};
+            this._objUIOpen = {};
         }
 
         init() {
@@ -51,6 +58,7 @@ module h5game {
 
             Global.stageUtils.stage.on(Laya.Event.RESIZE, this, this.onStageResize);
             this.onStageResize();
+            Laya.timer.frameLoop(300, this, this.onTick);
         }
 
         private initLayer() {
@@ -62,9 +70,10 @@ module h5game {
                 layer.left = layer.right = layer.top = layer.bottom = 0;
                 this._allLayer.addChild(layer);
                 this._objLayer[layerName] = layer;
+                this._objUIOpen[layerName] = [];
             }
         }
-
+        
         private getUIName(uiClass: any): string {
             if (uiClass.hasOwnProperty("name")) {
                 this._objUIClass[uiClass.name] = uiClass;
@@ -76,36 +85,96 @@ module h5game {
 
         private createUI(uiName: string): BaseView {
             let uiClass: any = this._objUIClass[uiName];
-            let ui: BaseView = new uiClass() as BaseView;
-            ui.name = uiName;
-            this._objBaseView[uiName] = ui;
-            return ui;
+            let view: BaseView = new uiClass() as BaseView;
+            view.name = uiName;
+            this._objUICache[uiName] = view;
+            return view;
         }
 
+        /**
+         * 是否打开
+         * 
+         * @param uiName 
+         */
+        private isOpening(uiName: string) {
+            let view: BaseView = this._objUICache[uiName];
+            let layerName: string = view.layerName;
+            let arryaOpen: Array<BaseView> = this._objUIOpen[layerName];
+            return arryaOpen.indexOf(view) > -1;
+        }
+
+        /**
+         * 打开UI
+         * 
+         * @param uiClass 
+         * @param layerName 
+         * @param args 
+         */
         openView(uiClass: any, layerName: string = LayerMgr.LAYER_WINDOW, args: any = null): void {
             let uiName: string = this.getUIName(uiClass);
             let layerRoot: Laya.Box = this._objLayer[layerName];
 
-            let ui: BaseView = this._objBaseView[uiName];
-            if (ui == undefined) {
-                ui = this.createUI(uiName);
+            let view: BaseView = this._objUICache[uiName];
+            let isCreate: boolean = false;
+            if (view == undefined) {
+                isCreate = true;
+                view = this.createUI(uiName);
             }
 
-            ui.root = layerRoot;
-            ui.layerName = layerName;
+            view.root = layerRoot;
+            view.layerName = layerName;
 
-            if (!ui.isResComplete && !ui.isLoadRes) {
-                ui.loadRes();
+            if (!view.isResComplete && !view.isLoadRes || isCreate) {
+                view.loadRes();
             } else {
-                ui.onOpen();
+                view.onOpen();
+            }
+
+            if (!this.isOpening(uiName)) {
+                this._objUIOpen[layerName].push(view);
             }
         }
 
-        colseView(uiClass: any): void {
-            
+        /**
+         * 关闭UI
+         * @param uiClass 
+         */
+        colseView(uiClass: any): BaseView {
+            let uiName: string = this.getUIName(uiClass);
+            let view: BaseView = this._objUICache[uiName];
+
+            if (view == undefined || view == null)
+                return null;
+            if (view.closeTime != -1)
+                return view;
+
+            let layerName = view.layerName;
+            let arrayOpen: Array<BaseView> = this._objUIOpen[layerName];
+            let uiIndex: number = arrayOpen.indexOf(view);
+            if (uiIndex != -1) {
+                arrayOpen.splice(uiIndex, 1);
+                view.onClose();
+            }
+
+            return view;
         }
 
-        onStageResize() {
+        private destroyUI(view: BaseView) {
+            this.colseView(view);
+            delete this._objUICache[view.name];
+            view.destroy(true);
+        }
+
+        private onTick() {
+            for (let key in this._objUICache) {
+                let view = this._objUICache[key] as BaseView;
+                if (view && view.closeTime != -1 && (Date.now() - view.closeTime) >= LayerMgr.DESTROY_TIME) {
+                    this.destroyUI(view);
+                }
+            }
+        }
+
+        private onStageResize() {
             let scale: number = Math.min(Global.stageUtils.stage.width / Global.stageUtils.stage.designWidth, Global.stageUtils.stage.height / Global.stageUtils.stage.designHeight);
 
             for (let key in this._objLayer) {

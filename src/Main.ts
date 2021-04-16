@@ -7,6 +7,7 @@ module h5game {
     export class Main {
 
         constructor() {
+
             // Laya.HWMiniAdapter.init();
             // Laya.TTMiniAdapter.init();
             // Laya.BLMiniAdapter.init();
@@ -19,25 +20,21 @@ module h5game {
             // Laya.MiniAdpter.init();
 
             // Laya.init(600, 400, WebGL);
+
             this.init();
         }
 
-        init() {
+        init(): void {
             Global.debugUtils.isDebug = true;
             Global.stageUtils.init();
             Global.layerMgr.init();
-            // //注册场景
-            // App.SceneManager.register(SceneConst.HOME, new HomeScene());
         }
 
-        start() {
-            // App.SceneManager.runScene(SceneConst.HOME);
-            console.log("11111111111111")
-            // Global.stageUtils.stage.addChild(new MainCity());
+        start(setings: any): void {
             Global.layerMgr.openView(MainCity);
         }
     }
 }
 
 let main = new h5game.Main();
-main.start();
+main.start(this["setings"]);

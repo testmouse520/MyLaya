@@ -14,10 +14,18 @@ module h5game {
 			super();
 			this.isMaskBg = true;
 			this.arrayRes.push({ url: "res/atlas/comp.atlas", type: Laya.Loader.ATLAS });
+		}
 
-			// Laya.loader.load()
-			// Laya.Loader.ATLAS
-			// new Laya.Animation().loadAtlas()
+		protected onCreate(): void {
+			super.onCreate();
+		}
+
+		onOpen() {
+			super.onOpen();
+		}
+
+		onClose() {
+			super.onClose();
 		}
 	}
 }

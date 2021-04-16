@@ -21,13 +21,8 @@ var h5game;
             h5game.Global.debugUtils.isDebug = true;
             h5game.Global.stageUtils.init();
             h5game.Global.layerMgr.init();
-            // //注册场景
-            // App.SceneManager.register(SceneConst.HOME, new HomeScene());
         };
-        Main.prototype.start = function () {
-            // App.SceneManager.runScene(SceneConst.HOME);
-            console.log("11111111111111");
-            // Global.stageUtils.stage.addChild(new MainCity());
+        Main.prototype.start = function (setings) {
             h5game.Global.layerMgr.openView(h5game.MainCity);
         };
         return Main;
@@ -35,5 +30,5 @@ var h5game;
     h5game.Main = Main;
 })(h5game || (h5game = {}));
 var main = new h5game.Main();
-main.start();
+main.start(this["setings"]);
 //# sourceMappingURL=Main.js.map

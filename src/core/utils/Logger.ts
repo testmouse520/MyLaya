@@ -1,13 +1,15 @@
 
 
+module h5game {
 
-class Logger {
+    export class Logger {
 
-    constructor() { }
+        constructor() { }
 
-    static trace(...args) {
-        // if (App.DebugUtils.isDebug) {
-        console.log.apply(console, args);
-        // }
+        static trace(...args) {
+            // if (App.DebugUtils.isDebug) {
+            console.log.apply(console, args);
+            // }
+        }
     }
 }

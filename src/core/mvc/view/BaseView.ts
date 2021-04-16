@@ -11,33 +11,25 @@ module h5game {
     export class BaseView extends Laya.View {
 
         private _maskBg: Laya.Sprite;
+        // 事件监听集合
         private _eventArray: Array<string>;
-
+        // 是否加载资源
         private _isLoadRes: boolean = false;
-
+        // 资源图集集合
         protected arrayRes: Array<{ url: string, type: string }>;
+        // 遮罩的透明度
         protected nMaskAlpha: number;
+        // 是否显示遮罩
         protected isMaskBg: boolean;
 
         private _uiView: any;
+        // 界面关闭时间
+        private _closeTime: number;
+        // 父节点层名称
         private _layerName: string;
+        // 父节点
         private _root: Laya.Box;
-
-        set root(p: Laya.Box) {
-            this._root = p;
-        }
-
-        get root(): Laya.Box {
-            return this._root;
-        }
-
-        set layerName(name: string) {
-            this._layerName = name;
-        }
-
-        get layerName(): string {
-            return this._layerName;
-        }
+        private _args: any;
 
         constructor() {
             super();
@@ -45,33 +37,38 @@ module h5game {
             this.arrayRes = [];
             this.nMaskAlpha = 0.5;
             this.isMaskBg = false;
-            this.initRes();
         }
 
         protected createView(uiView: any): void {
             this._uiView = uiView;
         }
 
+        /**
+         * 打开
+         */
         onOpen() {
             this.root.addChild(this);
-            //resize尺寸变化监听事件
+            // resize尺寸变化监听事件
             if (this.isMaskBg)
                 this.parent.addChildAt(this.maskBg, 0);
+            this.closeTime = -1;
             this.onResize();
             Global.stageUtils.stage.on(Laya.Event.RESIZE, this, this.onResize);
         }
 
+        /**
+         * 关闭
+         */
         onClose() {
-            this.removeSelf();
-
             Global.stageUtils.stage.off(Laya.Event.RESIZE, this, this.onResize);
+            this.removeAllEvent();
 
-            if (this._eventArray && this._eventArray.length) {
-                for (let i = 0, length = this._eventArray.length; i < length; i++) {
-                    this.removeEventListener(this._eventArray[i]);
-                }
-            }
-            this._eventArray.length = 0;
+            this.args = null;
+            this.layerName = null;
+            this.root = null;
+
+            this.closeTime = Date.now();
+            this.removeSelf();
         }
 
         /**
@@ -93,6 +90,18 @@ module h5game {
         }
 
         /**
+         * 删除所有事件
+         */
+        private removeAllEvent(): void {
+            if (this._eventArray && this._eventArray.length) {
+                for (let i = 0, len = this._eventArray.length; i < len; i++) {
+                    this.removeEventListener(this._eventArray[i]);
+                }
+            }
+            this._eventArray && (this._eventArray.length = 0);
+        }
+
+        /**
          * 触发事件
          * @param id 
          * @param evt 
@@ -101,11 +110,36 @@ module h5game {
             Global.evtMgr.dispatch(id, this, evt)
         }
 
-        /**
-         * 子类继承必须实现，赋值加载资源
-         * @param [{url: , type: }]
-         */
-        protected initRes() {
+        set root(p: Laya.Box) {
+            this._root = p;
+        }
+
+        get root(): Laya.Box {
+            return this._root;
+        }
+
+        set layerName(name: string) {
+            this._layerName = name;
+        }
+
+        get layerName(): string {
+            return this._layerName;
+        }
+
+        set closeTime(number) {
+            this._closeTime = number;
+        }
+
+        get closeTime(): number {
+            return this._closeTime;
+        }
+
+        set args(args) {
+            this._args = args;
+        }
+
+        get args(): any {
+            return this.args;
         }
 
         /**
@@ -134,36 +168,43 @@ module h5game {
             return true;
         }
 
-        // private _loadComplete: Handler = null;
-        // private _loadProgress: Handler = null;
-
+        /**
+         * 加载资源
+         */
         loadRes() {
-            // this._loadComplete = complete || Handler.createOnce(this, this.onLoadComplete);
-            // this._loadProgress = progress;
-            this._isLoadRes = true;
-            Laya.loader.load(this.arrayRes, Handler.createOnce(this, this.onLoadComplete), null, Laya.Loader.ATLAS, 1);
-        }
-
-        onLoadComplete(complete: boolean): void {
-            this._isLoadRes = false;
-            if (complete) {
+            if (this.arrayRes && this.arrayRes.length > 0) {
+                this._isLoadRes = true;
+                Laya.loader.load(this.arrayRes, Handler.createOnce(this, this.onLoadComplete), null, Laya.Loader.ATLAS, 1);
             } else {
+                this.onCreate();
             }
-            super.createView(this._uiView);
-            this.onOpen();
         }
-
 
         /**
-         * 对面板进行显示初始化，用于子类继承
+         * 资源加载完毕
+         * 
+         * @param complete 
          */
-        protected initView() {
+        private onLoadComplete(complete: boolean): void {
+            this._isLoadRes = false;
+            if (!complete) {
+                Logger.trace("图片资源加载失败!")
+            }
+            this.onCreate();
+        }
+
+        /**
+         * 创建界面
+         */
+        protected onCreate() {
+            super.createView(this._uiView);
+            this.onOpen();
         }
 
         /**
          * 屏幕尺寸变化时调用
          */
-        onResize() {
+        protected onResize() {
             this._onResize()
         }
 

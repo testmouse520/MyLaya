@@ -26,10 +26,16 @@ var h5game;
             _this.isMaskBg = true;
             _this.arrayRes.push({ url: "res/atlas/comp.atlas", type: Laya.Loader.ATLAS });
             return _this;
-            // Laya.loader.load()
-            // Laya.Loader.ATLAS
-            // new Laya.Animation().loadAtlas()
         }
+        MainCity.prototype.onCreate = function () {
+            _super.prototype.onCreate.call(this);
+        };
+        MainCity.prototype.onOpen = function () {
+            _super.prototype.onOpen.call(this);
+        };
+        MainCity.prototype.onClose = function () {
+            _super.prototype.onClose.call(this);
+        };
         return MainCity;
     }(ui.main_city.MainCityUI));
     h5game.MainCity = MainCity;
