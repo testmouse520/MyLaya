@@ -125,7 +125,7 @@ var h5game;
         });
         Object.defineProperty(BaseView.prototype, "args", {
             get: function () {
-                return this.args;
+                return this._args;
             },
             set: function (args) {
                 this._args = args;

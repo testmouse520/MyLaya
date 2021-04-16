@@ -21,7 +21,7 @@ module ui.common {
 module ui.main_city {
     export class MainCityUI extends BaseView {
 
-        public static  uiView:any ={"type":"BaseView","props":{"width":1334,"height":750},"child":[{"type":"Image","props":{"y":205,"x":375,"skin":"comp/bg.png"}},{"type":"Image","props":{"y":340,"x":550,"skin":"comp/bg.png"}},{"type":"Image","props":{"y":338,"x":905,"skin":"comp/bg.png"}}]};
+        public static  uiView:any ={"type":"BaseView","props":{"width":1334,"height":750,"centerY":0,"centerX":0},"child":[{"type":"Image","props":{"y":205,"x":375,"skin":"comp/bg.png"}},{"type":"Image","props":{"y":340,"x":550,"skin":"comp/bg.png"}},{"type":"Image","props":{"y":338,"x":905,"skin":"comp/bg.png"}}]};
         constructor(){ super()}
         createChildren():void {
         

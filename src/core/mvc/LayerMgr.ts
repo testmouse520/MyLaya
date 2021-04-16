@@ -73,7 +73,7 @@ module h5game {
                 this._objUIOpen[layerName] = [];
             }
         }
-        
+
         private getUIName(uiClass: any): string {
             if (uiClass.hasOwnProperty("name")) {
                 this._objUIClass[uiClass.name] = uiClass;
@@ -137,6 +137,7 @@ module h5game {
 
         /**
          * 关闭UI
+         * 
          * @param uiClass 
          */
         colseView(uiClass: any): BaseView {
@@ -159,12 +160,20 @@ module h5game {
             return view;
         }
 
+        /**
+         * 销毁UI
+         * 
+         * @param view 
+         */
         private destroyUI(view: BaseView) {
             this.colseView(view);
             delete this._objUICache[view.name];
             view.destroy(true);
         }
 
+        /**
+         * 心跳
+         */
         private onTick() {
             for (let key in this._objUICache) {
                 let view = this._objUICache[key] as BaseView;

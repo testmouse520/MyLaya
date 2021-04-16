@@ -139,7 +139,7 @@ module h5game {
         }
 
         get args(): any {
-            return this.args;
+            return this._args;
         }
 
         /**

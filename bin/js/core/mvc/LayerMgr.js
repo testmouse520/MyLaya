@@ -115,6 +115,7 @@ var h5game;
         };
         /**
          * 关闭UI
+         *
          * @param uiClass
          */
         LayerMgr.prototype.colseView = function (uiClass) {
@@ -133,11 +134,19 @@ var h5game;
             }
             return view;
         };
+        /**
+         * 销毁UI
+         *
+         * @param view
+         */
         LayerMgr.prototype.destroyUI = function (view) {
             this.colseView(view);
             delete this._objUICache[view.name];
             view.destroy(true);
         };
+        /**
+         * 心跳
+         */
         LayerMgr.prototype.onTick = function () {
             for (var key in this._objUICache) {
                 var view = this._objUICache[key];
