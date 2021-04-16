@@ -103,6 +103,7 @@ var h5game;
             }
             view.root = layerRoot;
             view.layerName = layerName;
+            view.args = args;
             if (!view.isResComplete && !view.isLoadRes || isCreate) {
                 view.loadRes();
             }
