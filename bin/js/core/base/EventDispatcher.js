@@ -43,7 +43,7 @@ var h5game;
             if (target == undefined || this.ifStageEvent(id)) {
                 target = Laya.stage;
             }
-            if (this._dictEvtForm[id] = undefined) {
+            if (this._dictEvtForm[id] == undefined) {
                 this._dictEvtForm[id] = new Laya.Dictionary();
             }
             this._dictEvtForm[id].set(target, handler);

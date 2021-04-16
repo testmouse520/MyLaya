@@ -28,6 +28,12 @@ var h5game;
         }
         BaseController.prototype.init = function () {
         };
+        BaseController.prototype.addEventListener = function (id, handler) {
+            h5game.Global.evtMgr.addEventListener(id, this, handler);
+        };
+        BaseController.prototype.dispatch = function (id, evt) {
+            h5game.Global.evtMgr.dispatch(id, this, evt);
+        };
         return BaseController;
     }(h5game.BaseClass));
     h5game.BaseController = BaseController;

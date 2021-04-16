@@ -17,5 +17,13 @@ module h5game {
 
         protected init() {
         }
+
+        protected addEventListener(id: string, handler: Handler): void {
+            Global.evtMgr.addEventListener(id, this, handler);
+        }
+
+        protected dispatch(id: string, evt?: BaseEvent): void {
+            Global.evtMgr.dispatch(id, this, evt)
+        }
     }
 }
