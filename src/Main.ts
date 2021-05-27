@@ -32,20 +32,6 @@ module h5game {
 
         start(setings: any): void {
             Global.layerMgr.openView(MainCity);
-
-            // FuncOpenController.getInstance().addLocalUnlock(1, Handler.createOnce(this, this.onSS))
-            // let obj = {};
-            // obj["bg"] = Handler.createPermanent(this, this.onSS);
-
-            // let c = (obj["bg"] as Handler).run();
-            // console.log("c = " + c);
-            // let c1 = (obj["bg"] as Handler).run();
-            // console.log("c1 = " + c1);
-
-        }
-
-        onSS() {
-            return false;
         }
     }
 }
