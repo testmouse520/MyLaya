@@ -38,10 +38,10 @@ var h5game;
          * 打开
          */
         BaseView.prototype.onOpen = function () {
-            this.root.addChild(this);
             // resize尺寸变化监听事件
             if (this.isMaskBg)
-                this.parent.addChildAt(this.maskBg, 0);
+                this.root.addChild(this.maskBg);
+            this.root.addChild(this);
             this.closeTime = -1;
             this.onResize();
             h5game.Global.stageUtils.stage.on(Laya.Event.RESIZE, this, this.onResize);

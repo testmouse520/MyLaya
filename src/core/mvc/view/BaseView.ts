@@ -47,10 +47,10 @@ module h5game {
          * 打开
          */
         onOpen() {
-            this.root.addChild(this);
             // resize尺寸变化监听事件
             if (this.isMaskBg)
-                this.parent.addChildAt(this.maskBg, 0);
+                this.root.addChild(this.maskBg);
+            this.root.addChild(this);
             this.closeTime = -1;
             this.onResize();
             Global.stageUtils.stage.on(Laya.Event.RESIZE, this, this.onResize);
