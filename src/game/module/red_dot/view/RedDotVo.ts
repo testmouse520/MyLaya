@@ -36,6 +36,11 @@ module h5game {
             Global.evtMgr.removeEventListener(RedDotEvent.CHANGED, this);
         }
 
+        destroy(destroyChild?: boolean): void {
+            this.unregisterRedDot();
+            super.destroy(destroyChild)
+        }
+
         private onGameRedDot(obj: IRedDotInfo) {
             if (obj.key == this._nKey) {
                 let value: number = Global.redDotMgr.getRedDotValue(this._nKey);

@@ -31,7 +31,7 @@ module h5game {
 		private _arrayInitMsgID: Array<number>;
 		// 功能解锁检查
 		private _objLocalUnlockCheck: { [key: number]: Handler };
-		// 能力解锁回调
+		// 功能解锁回调
 		private _objUnlockCallback: { [key: number]: Handler };
 		private _isInit: boolean;
 
@@ -209,6 +209,4 @@ module h5game {
 			return true;
 		}
 	}
-
-
 }
