@@ -12,9 +12,7 @@ module ui.common {
         
             super.createChildren();
             this.createView(ui.common.RedDotUI.uiView);
-
         }
-
     }
 }
 
@@ -27,9 +25,7 @@ module ui.main_city {
         
             super.createChildren();
             this.createView(ui.main_city.MainCityUI.uiView);
-
         }
-
     }
 }
 
@@ -51,8 +47,6 @@ module ui.test {
         
             super.createChildren();
             this.createView(ui.test.TestPageUI.uiView);
-
         }
-
     }
 }

@@ -118,12 +118,12 @@ module h5game {
          * @param txt
          */
         startRollNumberEffect(type: string, newNumber: number, oldNumber: number, txt: Laya.Label): void {
-
+            let self = this;
             // 先停止旧的：
             // 上次滚动效果没结束，直接停止，设置最新值。
-            if (this._rollList[type]) {
-                clearInterval(this._rollList[type]);
-                this._rollList[type] = null;
+            if (self._rollList[type]) {
+                clearInterval(self._rollList[type]);
+                self._rollList[type] = null;
             }
 
             // 值没有变化或者节点不存在
@@ -138,14 +138,14 @@ module h5game {
             // 结束时间。
             let stopTime = startTime + 1500; // 一秒钟时间：确保不超过2秒钟。
 
-            this._rollList[type] = setInterval(function () {
+            self._rollList[type] = setInterval(function () {
                 oldNumber += nDiffNumber / 100;
                 txt.text = '' + Math.floor(oldNumber);
                 // 条件满足时，停止效果：
                 if (newNumber >= oldNumber && nDiffNumber < 0 || newNumber <= oldNumber && nDiffNumber > 0 || stopTime < new Date().getTime()) {
                     txt.text = '' + newNumber;
-                    clearInterval(this.rollList[type]);
-                    this.rollList[type] = null;
+                    clearInterval(self._rollList[type]);
+                    self._rollList[type] = null;
                 }
             }, 10);
         }
