@@ -110,9 +110,9 @@ module h5game {
 				}
 				funcOpenVo.unlock = unlock;
 				unlock && arrayOpen.push(funcOpenVo.ID);
-				if (arrayOpen && arrayOpen.length > 0) {
-					this.dispatch(FuncOpenEvent.FUNC_OPEN_UNLOCK, new FuncOpenEvent(arrayOpen));
-				}
+			}
+			if (arrayOpen && arrayOpen.length > 0) {
+				this.dispatch(FuncOpenEvent.FUNC_OPEN_UNLOCK, new FuncOpenEvent(arrayOpen));
 			}
 		}
 

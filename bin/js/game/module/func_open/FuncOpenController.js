@@ -98,9 +98,9 @@ var h5game;
                 }
                 funcOpenVo.unlock = unlock;
                 unlock && arrayOpen.push(funcOpenVo.ID);
-                if (arrayOpen && arrayOpen.length > 0) {
-                    this.dispatch(h5game.FuncOpenEvent.FUNC_OPEN_UNLOCK, new h5game.FuncOpenEvent(arrayOpen));
-                }
+            }
+            if (arrayOpen && arrayOpen.length > 0) {
+                this.dispatch(h5game.FuncOpenEvent.FUNC_OPEN_UNLOCK, new h5game.FuncOpenEvent(arrayOpen));
             }
         };
         FuncOpenController.prototype.onFuncOpenUnlock = function (evt) {

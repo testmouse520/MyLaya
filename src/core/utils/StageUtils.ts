@@ -27,8 +27,8 @@ module h5game {
                 Laya.init(width, height);
             }
             //debug显示
-            (isDebug) && (Laya.Stat.show());
-            // (isDebug) && (Laya.DebugTool.init());
+            isDebug && Laya.Stat.show();
+            // isDebug && Laya.DebugTool.init();
             //自动计算计算量较大，对性能有一定影响,默认为false
             Laya.stage.autoSize = false;
             //帧率类型，支持三种模式：fast-60帧(默认)，slow-30帧，mouse-30帧，但鼠标活动后会自动加速到60，鼠标不动2秒后降低为30帧，以节省消耗

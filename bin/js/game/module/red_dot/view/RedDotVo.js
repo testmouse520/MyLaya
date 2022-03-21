@@ -43,6 +43,10 @@ var h5game;
         RedDotVo.prototype.unregisterRedDot = function () {
             h5game.Global.evtMgr.removeEventListener(h5game.RedDotEvent.CHANGED, this);
         };
+        RedDotVo.prototype.destroy = function (destroyChild) {
+            this.unregisterRedDot();
+            _super.prototype.destroy.call(this, destroyChild);
+        };
         RedDotVo.prototype.onGameRedDot = function (obj) {
             if (obj.key == this._nKey) {
                 var value = h5game.Global.redDotMgr.getRedDotValue(this._nKey);

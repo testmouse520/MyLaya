@@ -24,16 +24,6 @@ var h5game;
         };
         Main.prototype.start = function (setings) {
             h5game.Global.layerMgr.openView(h5game.MainCity);
-            // FuncOpenController.getInstance().addLocalUnlock(1, Handler.createOnce(this, this.onSS))
-            // let obj = {};
-            // obj["bg"] = Handler.createPermanent(this, this.onSS);
-            // let c = (obj["bg"] as Handler).run();
-            // console.log("c = " + c);
-            // let c1 = (obj["bg"] as Handler).run();
-            // console.log("c1 = " + c1);
-        };
-        Main.prototype.onSS = function () {
-            return false;
         };
         return Main;
     }());
